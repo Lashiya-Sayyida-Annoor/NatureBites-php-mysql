@@ -1,0 +1,162 @@
+<?php
+session_start();
+include("../Assets/Connection/Connection.php");
+
+if(isset($_GET['disid']))
+$sele="select * from tbl_distributor where dist_id=".$_GET['disid'];
+$res=$con->query($sele);
+$i=0;
+
+
+while($row=$res->fetch_assoc())
+{
+    $i++;
+   
+?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>My Wishlist</title>
+<link rel="stylesheet" href="../Assets/Template/Search/bootstrap.min.css">
+<style>
+            .custom-alert-box{
+				z-index:1;
+                width: 20%;
+                height: 10%;
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                left: auto;
+            }
+
+            .success {
+                color: #3c763d;
+                background-color: #dff0d8;
+                border-color: #d6e9c6;
+                display: none;
+            }
+
+            .failure {
+                color: #a94442;
+                background-color: #f2dede;
+                border-color: #ebccd1;
+                display: none;
+            }
+
+            .warning {
+                color: #8a6d3b;
+                background-color: #fcf8e3;
+                border-color: #faebcc;
+                display: none;
+            }
+        </style>
+</head>
+
+<body>
+ <div class="custom-alert-box">
+            <div class="alert-box success">Successful Added to Cart !!!</div>
+            <div class="alert-box failure">Failed to Add Cart !!!</div>
+            <div class="alert-box warning">Already Added to Cart !!!</div>
+        </div>
+
+        <center>
+
+<td >
+
+<p>
+    
+<img src="../Assets/Files/Distimg/<?php echo $row['dist_img'];?>" width="100"/><br />
+Distributor <?php echo $row['dist_name'];?><br />
+Contact <?php echo $row['dist_contact'];?><br />
+ Address<?php echo $row['dist_address'];?><br />
+<br><br>
+</p>
+</td>
+<?php } ?>
+
+<table>
+<h2>products</h2><br><br>
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+<?php 
+
+$select="select * from tbl_vegetables where dist_id=".$_GET['disid'];
+$res=$con->query($select);
+$i=0;
+
+while($row=$res->fetch_assoc())
+{
+    $i++;
+   
+?>
+<td>
+    <p>
+
+<img src="../Assets/Files/Distimg/<?php echo $row['veg_img'];?>" width="100"/><br>
+     Vegetables <?php echo $row['veg_name'];?><br>
+     Rate <?php echo $row['veg_rate'];?><br>
+     <button name="btnaddcart" onClick="addCart(<?php echo $row['veg_id']?>)" >Add to cart</button>
+
+
+
+</p>
+
+
+</td>
+
+
+
+<?php
+	 if($i==3)
+	 {
+		 echo "</tr> <tr>";
+		 $i=0;
+	 }
+	  }
+	?>
+
+
+</table>
+</center>
+
+<script src="../Assets/Template/Search/jquery.min.js"></script>
+  <script>
+   function addCart(id)
+            {
+                $.ajax({
+                    url: "../Assets/AjaxPages/AjaxVegCart.php?id=" + id,
+                    success: function(response) {
+                        if (response.trim() === "Added to Cart")
+                        {
+                            $("div.success").fadeIn(300).delay(1500).fadeOut(400);
+                        }
+                        else if (response.trim() === "Already Added to Cart")
+                        {
+                            $("div.warning").fadeIn(300).delay(1500).fadeOut(400);
+                        }
+                        else
+                        {
+                            $("div.failure").fadeIn(300).delay(1500).fadeOut(400);
+                        }
+                    }
+                });
+            }
+</script> 
+
+</body>
+</html>
+
