@@ -63,10 +63,10 @@ if (isset($_POST["printContents"])) {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'naturebites003@gmail.com'; // Your Gmail email address
-    $mail->Password = 'vtsciymqbwrwkjae'; // Your Gmail app password
+    $mail->Username = 'demo@gmail.com'; // Your Gmail email address
+    $mail->Password = 'XXXXXXX'; // Your Gmail app password
     $mail->SMTPSecure = 'ssl';
-    $mail->Port = 465;
+    $mail->Port = 111;
 
     $mail->setFrom('naturebites003@gmail.com'); // Your Gmail email address
     $mail->addAddress($row['user_email']);
